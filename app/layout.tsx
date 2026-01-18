@@ -4,6 +4,7 @@ import { Cormorant_Garamond, Outfit, Roboto } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
+import { CartProvider } from "@/lib/cart-context"
 import "./globals.css"
 
 const cormorant = Cormorant_Garamond({
@@ -38,9 +39,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${cormorant.variable} ${outfit.variable} ${roboto.variable} font-sans antialiased bg-background text-foreground`}>
-        <Header />
-        {children}
-        <Footer />
+        <CartProvider>
+          <Header />
+          {children}
+          <Footer />
+        </CartProvider>
         <Analytics />
       </body>
     </html>

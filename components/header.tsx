@@ -5,6 +5,8 @@ import Link from "next/link";
 import { Search, User, Heart, ShoppingBag, Menu, X, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { CartDrawer } from "@/components/cart-drawer";
+import { useCart } from "@/lib/cart-context";
 
 const navItems = [
   { name: "Shop", href: "/shop" },
@@ -18,6 +20,7 @@ const navItems = [
 
 export function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const { itemCount } = useCart();
 
   return (
     <header className="sticky top-0 z-50 bg-background">
@@ -83,33 +86,41 @@ export function Header() {
                 )}
                 <span className="sr-only">Search</span>
               </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="hidden sm:inline-flex text-foreground/80 hover:text-foreground"
-              >
-                <User className="h-5 w-5" />
-                <span className="sr-only">Account</span>
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="text-foreground/80 hover:text-foreground"
-              >
-                <Heart className="h-5 w-5" />
-                <span className="sr-only">Wishlist</span>
-              </Button>
-              <Button
-                variant="ghost"
-                size="icon"
-                className="relative text-foreground/80 hover:text-foreground"
-              >
-                <ShoppingBag className="h-5 w-5" />
-                <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-[10px] font-medium text-accent-foreground flex items-center justify-center">
-                  0
-                </span>
-                <span className="sr-only">Cart</span>
-              </Button>
+              <Link href="/login">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="hidden sm:inline-flex text-foreground/80 hover:text-foreground"
+                >
+                  <User className="h-5 w-5" />
+                  <span className="sr-only">Account</span>
+                </Button>
+              </Link>
+              <Link href="/wishlist">
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="text-foreground/80 hover:text-foreground"
+                >
+                  <Heart className="h-5 w-5" />
+                  <span className="sr-only">Wishlist</span>
+                </Button>
+              </Link>
+              <CartDrawer>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="relative text-foreground/80 hover:text-foreground"
+                >
+                  <ShoppingBag className="h-5 w-5" />
+                  {itemCount > 0 && (
+                    <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-[10px] font-medium text-accent-foreground flex items-center justify-center">
+                      {itemCount}
+                    </span>
+                  )}
+                  <span className="sr-only">Cart</span>
+                </Button>
+              </CartDrawer>
             </div>
           </div>
         </div>

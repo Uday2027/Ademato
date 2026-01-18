@@ -3,18 +3,40 @@
 import { Heart, Share2 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
+import { useCart } from "@/lib/cart-context"
+import { useState } from "react"
 
 interface ProductInfoProps {
   product: {
+    id?: number
     brand: string
     model: string
     ref: string
     price: number
     sku?: string
+    image?: string
   }
 }
 
 export function ProductInfo({ product }: ProductInfoProps) {
+  const { addItem } = useCart()
+  const [showAdded, setShowAdded] = useState(false)
+
+  const handleAddToCart = () => {
+    addItem({
+      id: product.id || Math.random(),
+      brand: product.brand,
+      model: product.model,
+      ref: product.ref,
+      price: product.price,
+      image: product.image || "https://images.unsplash.com/photo-1523170335258-f5ed11844a49?q=80&w=400&auto=format&fit=crop"
+    })
+    
+    // Show confirmation
+    setShowAdded(true)
+    setTimeout(() => setShowAdded(false), 2000)
+  }
+
   return (
     <div className="flex flex-col gap-6">
       <div className="space-y-2">
@@ -47,8 +69,12 @@ export function ProductInfo({ product }: ProductInfoProps) {
       </div>
 
       <div className="space-y-3">
-        <Button className="w-full h-12 text-base font-medium border-2" variant="outline">
-          Add to cart
+        <Button 
+          onClick={handleAddToCart}
+          className="w-full h-12 text-base font-medium border-2 relative" 
+          variant="outline"
+        >
+          {showAdded ? "✓ Added to Cart" : "Add to cart"}
         </Button>
         <Button className="w-full h-12 text-base font-medium bg-[#5A31F4] hover:bg-[#4825C9] text-white">
           Buy with <span className="font-bold ml-1">shop</span>

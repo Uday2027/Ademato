@@ -28,7 +28,7 @@ export function ProductCard({ product }: ProductCardProps) {
     return (
         <div className="group bg-card border border-border">
             {/* Image */}
-            <div className="relative aspect-square overflow-hidden bg-secondary">
+            <div className="relative aspect-square overflow-hidden bg-secondary rounded-xl">
                 <img
                     src={product.image || "/placeholder.svg"}
                     alt={`${product.brand} ${product.model}`}

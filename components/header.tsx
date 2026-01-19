@@ -16,6 +16,7 @@ const navItems = [
   { name: "Sold Archive", href: "/archive" },
   // { name: "Journal", href: "/journal" },
   { name: "About", href: "/about" },
+  { name: "Contact Us", href: "/contact" },
 ];
 
 export function Header() {
@@ -53,7 +54,7 @@ export function Header() {
 
             {/* Logo */}
             <Link href="/" className="flex-shrink-0">
-              <h1 className="text-xl lg:text-2xl font-semibold tracking-[0.2em] text-foreground">
+              <h1 className="text-3xl lg:text-4xl font-bold tracking-wide text-foreground font-[family-name:var(--font-caveat)]">
                 Ademato
               </h1>
             </Link>

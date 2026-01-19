@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import Autoplay from "embla-carousel-autoplay";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
@@ -86,7 +87,7 @@ export function RolexShowcase() {
       "(min-width: 1280px)": { slidesToScroll: 4 },
       "(min-width: 1536px)": { slidesToScroll: 5 },
     },
-  });
+  }, [Autoplay({ delay: 3000, stopOnInteraction: false }) as any]);
 
   const filteredWatches = watches.filter(
     (watch) =>
@@ -125,17 +126,17 @@ export function RolexShowcase() {
     <section className="py-16 bg-background border-t border-border">
       <div className="px-4">
         {/* Header & Filters */}
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 mb-10 mx-auto">
-          <div>
-            <h2 className="text-3xl font-light tracking-tight mb-2">
-              Rolex Collection
-            </h2>
-            <p className="text-muted-foreground text-sm tracking-wide">
-              Explore our curated selection
-            </p>
-          </div>
+        <div className="text-center mb-12 max-w-2xl mx-auto">
+          <h2 className="text-3xl font-light tracking-tight mb-2">
+            Watch Collection
+          </h2>
+          <p className="text-muted-foreground text-sm tracking-wide">
+            Explore our curated selection
+          </p>
+        </div>
 
-          <div className="flex flex-wrap gap-2">
+        {/* Categories Section - Commented Out */}
+        {/* <div className="flex flex-wrap gap-2">
             {categories.map((category) => (
               <button
                 key={category}
@@ -149,67 +150,66 @@ export function RolexShowcase() {
                 {category}
               </button>
             ))}
-          </div>
-        </div>
+          </div> */}
+      </div>
 
-        {/* Carousel */}
-        <div className="relative group">
-          <div className="overflow-hidden" ref={emblaRef}>
-            <div className="flex -ml-4">
-              {filteredWatches.map((watch) => (
-                <div
-                  key={watch.id}
-                  className="flex-[0_0_100%] sm:flex-[0_0_50%] lg:flex-[0_0_25%] xl:flex-[0_0_20%] 2xl:flex-[0_0_16.666%] min-w-0 pl-4"
+      {/* Carousel */}
+      <div className="relative group">
+        <div className="overflow-hidden" ref={emblaRef}>
+          <div className="flex -ml-4">
+            {filteredWatches.map((watch) => (
+              <div
+                key={watch.id}
+                className="flex-[0_0_100%] sm:flex-[0_0_50%] lg:flex-[0_0_25%] xl:flex-[0_0_20%] 2xl:flex-[0_0_16.666%] min-w-0 pl-4"
+              >
+                <Link
+                  href={`/watch/${watch.id}`}
+                  className="block group/card"
                 >
-                  <Link
-                    href={`/watch/${watch.id}`}
-                    className="block group/card"
-                  >
-                    {/* Image Container */}
-                    <div className="aspect-[3/4] bg-[#f5f5f5] mb-4 overflow-hidden relative">
-                      <img
-                        src={watch.image || "/placeholder.svg"}
-                        alt={watch.model}
-                        className="h-full w-full object-cover object-center transition-transform duration-700 group-hover/card:scale-105"
-                      />
-                    </div>
+                  {/* Image Container */}
+                  <div className="aspect-[3/4] bg-[#f5f5f5] mb-4 overflow-hidden relative rounded-xl">
+                    <img
+                      src={watch.image || "/placeholder.svg"}
+                      alt={watch.model}
+                      className="h-full w-full object-cover object-center transition-transform duration-700 group-hover/card:scale-105"
+                    />
+                  </div>
 
-                    {/* Info */}
-                    <div className="space-y-1">
-                      <h3 className="text-xs font-semibold tracking-widest text-muted-foreground uppercase">
-                        {watch.brand}
-                      </h3>
-                      <h4 className="text-base font-normal text-foreground tracking-wide">
-                        {watch.model}
-                      </h4>
-                      <p className="text-sm font-medium text-foreground/80 tracking-wide">
-                        {watch.price}
-                      </p>
-                    </div>
-                  </Link>
-                </div>
-              ))}
-            </div>
+                  {/* Info */}
+                  <div className="space-y-1">
+                    <h3 className="text-xs font-semibold tracking-widest text-muted-foreground uppercase">
+                      {watch.brand}
+                    </h3>
+                    <h4 className="text-base font-normal text-foreground tracking-wide">
+                      {watch.model}
+                    </h4>
+                    <p className="text-sm font-medium text-foreground/80 tracking-wide">
+                      {watch.price}
+                    </p>
+                  </div>
+                </Link>
+              </div>
+            ))}
           </div>
-
-          {/* Navigation Buttons (Desktop) */}
-          <button
-            onClick={scrollPrev}
-            disabled={!canScrollPrev}
-            className={`absolute left-4 top-1/2 -translate-y-1/2 hidden xl:flex h-10 w-10 items-center justify-center text-foreground hover:opacity-70 transition-opacity ${!canScrollPrev ? "opacity-30 cursor-not-allowed" : ""}`}
-            aria-label="Previous slide"
-          >
-            <ChevronLeft className="h-8 w-8" />
-          </button>
-          <button
-            onClick={scrollNext}
-            disabled={!canScrollNext}
-            className={`absolute right-4 top-1/2 -translate-y-1/2 hidden xl:flex h-10 w-10 items-center justify-center text-foreground hover:opacity-70 transition-opacity ${!canScrollNext ? "opacity-30 cursor-not-allowed" : ""}`}
-            aria-label="Next slide"
-          >
-            <ChevronRight className="h-8 w-8" />
-          </button>
         </div>
+
+        {/* Navigation Buttons (Desktop) */}
+        <button
+          onClick={scrollPrev}
+          disabled={!canScrollPrev}
+          className={`absolute left-4 top-1/2 -translate-y-1/2 hidden xl:flex h-10 w-10 items-center justify-center text-foreground hover:opacity-70 transition-opacity ${!canScrollPrev ? "opacity-30 cursor-not-allowed" : ""}`}
+          aria-label="Previous slide"
+        >
+          <ChevronLeft className="h-8 w-8" />
+        </button>
+        <button
+          onClick={scrollNext}
+          disabled={!canScrollNext}
+          className={`absolute right-4 top-1/2 -translate-y-1/2 hidden xl:flex h-10 w-10 items-center justify-center text-foreground hover:opacity-70 transition-opacity ${!canScrollNext ? "opacity-30 cursor-not-allowed" : ""}`}
+          aria-label="Next slide"
+        >
+          <ChevronRight className="h-8 w-8" />
+        </button>
       </div>
     </section>
   );

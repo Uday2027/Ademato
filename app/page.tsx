@@ -1,4 +1,5 @@
 import { HeroCarousel } from "@/components/hero-carousel"
+import { LuxuryBanner } from "@/components/luxury-banner"
 import { ConversionTiles } from "@/components/conversion-tiles"
 import { RolexShowcase } from "@/components/rolex-showcase"
 import { NewArrivals } from "@/components/new-arrivals"
@@ -13,6 +14,7 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-background">
       <HeroCarousel />
+      <LuxuryBanner />
       <RolexShowcase />
       <NewArrivals />
       <ConversionTiles />

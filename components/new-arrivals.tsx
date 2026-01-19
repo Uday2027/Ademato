@@ -5,6 +5,7 @@ import Link from "next/link"
 import { Heart, Eye } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 const filters = ["All", "Rolex", "Patek", "AP", "Under $20k", "Full Set"]
 
@@ -111,8 +112,15 @@ export function NewArrivals() {
     setWishlist((prev) => (prev.includes(id) ? prev.filter((i) => i !== id) : [...prev, id]))
   }
 
+  const { ref: sectionRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
+
   return (
-    <section className="py-16 lg:py-24 bg-secondary">
+    <section 
+      ref={sectionRef}
+      className={`py-16 lg:py-24 bg-secondary transition-all duration-1000 ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+      }`}
+    >
       <div className="mx-auto max-w-7xl px-4">
         {/* Header */}
         <div className="text-center mb-12">
@@ -138,8 +146,12 @@ export function NewArrivals() {
 
         {/* Watch Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {filteredWatches.map((watch) => (
-            <div key={watch.id} className="group bg-card border border-border">
+          {filteredWatches.map((watch, index) => (
+            <div 
+              key={watch.id} 
+              className="group bg-card border border-border hover:border-[var(--luxury-gold)] hover:-translate-y-2 hover:shadow-luxury-hover transition-all duration-500"
+              style={{ animationDelay: `${index * 100}ms` }}
+            >
               {/* Image */}
               <div className="relative aspect-square overflow-hidden bg-secondary rounded-xl">
                 <img
@@ -148,14 +160,14 @@ export function NewArrivals() {
                   className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
 
-                {/* Badges */}
+                {/* Badges with Glassmorphism */}
                 {watch.badges.length > 0 && (
                   <div className="absolute top-3 left-3 flex flex-wrap gap-1">
                     {watch.badges.map((badge) => (
                       <Badge
                         key={badge}
                         variant="secondary"
-                        className="bg-background/90 text-foreground text-[10px] tracking-wider font-medium"
+                        className="glass-effect text-foreground text-[10px] tracking-wider font-medium backdrop-blur-sm"
                       >
                         {badge}
                       </Badge>
@@ -164,7 +176,7 @@ export function NewArrivals() {
                 )}
 
                 {/* Quick Actions */}
-                <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-all duration-300">
                   <button
                     onClick={() => toggleWishlist(watch.id)}
                     className={`p-2 bg-background/90 hover:bg-background transition-colors ${wishlist.includes(watch.id) ? "text-accent" : "text-foreground"

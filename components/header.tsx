@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { Search, User, Heart, ShoppingBag, Menu, X, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -21,12 +21,25 @@ const navItems = [
 
 export function Header() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
   const { itemCount } = useCart();
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <header className="sticky top-0 z-50 bg-background">
+    <header 
+      className={`sticky top-0 z-50 transition-all duration-500 ${
+        isScrolled ? "glass-effect shadow-luxury py-1" : "bg-background"
+      }`}
+    >
       {/* Main Header */}
-      <div className="border-b border-border">
+      <div className={`${isScrolled ? "" : "border-b border-border"}`}>
         <div className="mx-auto max-w-7xl px-4">
           <div className="flex h-16 items-center justify-between lg:h-20">
             {/* Mobile Menu */}

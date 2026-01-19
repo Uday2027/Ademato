@@ -1,6 +1,9 @@
+"use client"
+
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 const categories = [
   {
@@ -30,8 +33,15 @@ const categories = [
 ]
 
 export function CuratedCategories() {
+  const { ref: sectionRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
+
   return (
-    <section className="py-16 lg:py-24 bg-background">
+    <section 
+      ref={sectionRef}
+      className={`py-16 lg:py-24 bg-background transition-all duration-1000 ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+      }`}
+    >
       <div className="mx-auto max-w-7xl px-4">
         {/* Header */}
         <div className="text-center mb-12">
@@ -43,20 +53,28 @@ export function CuratedCategories() {
 
         {/* Categories Grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {categories.map((category) => (
+          {categories.map((category, index) => (
             <Link
               key={category.name}
               href={category.href}
-              className="group relative aspect-[4/5] overflow-hidden bg-secondary"
+              className="group relative aspect-[4/5] overflow-hidden bg-secondary shadow-luxury hover:shadow-luxury-hover hover:border-[var(--luxury-gold)] border border-transparent transition-all duration-700"
+              style={{ animationDelay: `${index * 150}ms` }}
             >
               <img
                 src={category.image || "/placeholder.svg"}
                 alt={`${category.brand} ${category.name}`}
-                className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-700"
+                className="h-full w-full object-cover group-hover:scale-110 transition-transform duration-1000"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-primary/80 via-primary/20 to-transparent" />
-              <div className="absolute bottom-0 left-0 right-0 p-6">
-                <p className="text-xs tracking-widest text-primary-foreground/70 mb-1">{category.brand}</p>
+              {/* Shimmer overlay */}
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 shimmer-overlay" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
+              <div className="absolute bottom-0 left-0 right-0 p-6 transition-transform duration-500 group-hover:-translate-y-2">
+                <p 
+                  className="text-xs tracking-[0.2em] uppercase mb-1"
+                  style={{ color: 'var(--luxury-gold)' }}
+                >
+                  {category.brand}
+                </p>
                 <h3 className="text-xl lg:text-2xl font-medium text-primary-foreground tracking-wide">
                   {category.name}
                 </h3>

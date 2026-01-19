@@ -2,10 +2,11 @@
 
 import { useState, useCallback, useEffect } from "react"
 import useEmblaCarousel from "embla-carousel-react"
-import { Star, ChevronLeft, ChevronRight } from "lucide-react"
+import { Star, ChevronLeft, ChevronRight, Quote } from "lucide-react"
 import Autoplay from "embla-carousel-autoplay"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
+import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 const testimonials = [
     {
@@ -67,6 +68,7 @@ const testimonials = [
 ]
 
 export function TestimonialSlider() {
+    const { ref: sectionRef, isVisible } = useScrollAnimation({ threshold: 0.1 })
     const [emblaRef, emblaApi] = useEmblaCarousel({
         loop: true,
         align: "start",
@@ -82,12 +84,20 @@ export function TestimonialSlider() {
     const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi])
 
     return (
-        <section className="py-16 lg:py-24 bg-background border-t border-border">
+        <section 
+            ref={sectionRef}
+            className={`py-16 lg:py-24 bg-background border-t border-border transition-all duration-1000 ${
+                isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+            }`}
+        >
             <div className="px-4">
                 <div className="text-center mb-12 max-w-7xl mx-auto">
                     <h2 className="text-3xl lg:text-4xl font-light tracking-tight mb-4">Client Stories</h2>
-                    <p className="text-muted-foreground font-light tracking-wide max-w-2xl mx-auto">
-                        Trusted by collectors and enthusiasts worldwide.
+                    <p 
+                        className="text-muted-foreground font-light tracking-widest max-w-2xl mx-auto uppercase text-xs"
+                        style={{ color: 'var(--luxury-bronze)' }}
+                    >
+                        Trusted by collectors worldwide
                     </p>
                 </div>
 
@@ -95,19 +105,23 @@ export function TestimonialSlider() {
                     <div className="overflow-hidden" ref={emblaRef}>
                         <div className="flex -ml-6">
                             {testimonials.map((testimonial) => (
-                                <div key={testimonial.id} className="flex-[0_0_100%] md:flex-[0_0_50%] lg:flex-[0_0_33.33%] xl:flex-[0_0_25%] 2xl:flex-[0_0_20%] min-w-0 pl-6">
-                                    <div className="h-full p-8 bg-secondary/30 border border-border/50 rounded-xl font-roboto">
+                                <div key={testimonial.id} className="flex-[0_0_100%] md:flex-[0_0_50%] lg:flex-[0_0_33.33%] xl:flex-[0_0_25%] 2xl:flex-[0_0_20%] min-w-0 pl-6 h-full">
+                                    <div className="h-full p-8 bg-secondary/20 border border-border/50 shadow-luxury hover:shadow-luxury-hover hover:border-[var(--luxury-gold)] transition-all duration-500 rounded-sm font-roboto relative overflow-hidden group/card">
+                                        <Quote 
+                                            className="absolute top-4 right-4 h-8 w-8 opacity-5 group-hover/card:opacity-10 transition-opacity duration-500" 
+                                            style={{ color: 'var(--luxury-gold)' }}
+                                        />
                                         <div className="flex gap-1 mb-6">
                                             {[...Array(testimonial.rating)].map((_, i) => (
-                                                <Star key={i} className="h-4 w-4 fill-primary text-primary" />
+                                                <Star key={i} className="h-3 w-3 fill-[var(--luxury-gold)] text-[var(--luxury-gold)]" />
                                             ))}
                                         </div>
-                                        <blockquote className="text-lg font-light italic mb-6 leading-relaxed">
+                                        <blockquote className="text-lg font-light italic mb-8 leading-relaxed text-foreground/90">
                                             &quot;{testimonial.content}&quot;
                                         </blockquote>
-                                        <div>
-                                            <div className="font-medium tracking-wide">{testimonial.name}</div>
-                                            <div className="text-xs text-muted-foreground uppercase tracking-widest mt-1">{testimonial.role}</div>
+                                        <div className="mt-auto">
+                                            <div className="font-medium tracking-[0.1em] text-sm uppercase">{testimonial.name}</div>
+                                            <div className="text-[10px] text-muted-foreground uppercase tracking-[0.2em] mt-2" style={{ color: 'var(--luxury-bronze)' }}>{testimonial.role}</div>
                                         </div>
                                     </div>
                                 </div>

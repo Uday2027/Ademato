@@ -44,15 +44,18 @@ const socialLinks = [
 
 export function Footer() {
   return (
-    <footer className="bg-primary text-primary-foreground">
+    <footer className="relative bg-primary text-primary-foreground overflow-hidden">
+      {/* Subtle background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[var(--luxury-bronze-dark)]/20 to-transparent pointer-events-none" />
+      
       {/* Main Footer */}
-      <div className="mx-auto max-w-7xl px-4 py-16 lg:py-20">
+      <div className="relative mx-auto max-w-7xl px-4 py-20 lg:py-24">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-20">
           {/* Left: Newsletter */}
           <div>
-            <h2 className="text-2xl lg:text-3xl font-light tracking-tight mb-4">Stay Informed</h2>
-            <p className="text-primary-foreground/70 font-light mb-6 max-w-md">
-              Insider drops, pricing notes, and market insights delivered to your inbox.
+            <h2 className="text-2xl lg:text-3xl font-serif font-light tracking-tight mb-4">Elevate Your Collection</h2>
+            <p className="text-primary-foreground/60 font-light mb-8 max-w-md leading-relaxed tracking-wide">
+              Join our exclusive circle for private offers, new arrivals, and expert market insights.
             </p>
             <form className="flex gap-3 max-w-md">
               <Input
@@ -73,7 +76,12 @@ export function Footer() {
           <div className="grid sm:grid-cols-3 gap-8">
             {Object.values(footerLinks).map((section) => (
               <div key={section.title}>
-                <h3 className="text-sm tracking-widest font-medium mb-4">{section.title}</h3>
+                <h3 
+                  className="text-xs tracking-[0.2em] font-medium mb-6 uppercase"
+                  style={{ color: 'var(--luxury-gold)' }}
+                >
+                  {section.title}
+                </h3>
                 <ul className="space-y-3">
                   {section.links.map((link) => (
                     <li key={link.name}>
@@ -97,8 +105,8 @@ export function Footer() {
         <div className="mx-auto max-w-7xl px-4 py-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             {/* Logo */}
-            <Link href="/" className="text-3xl tracking-wide font-bold font-[family-name:var(--font-caveat)]">
-              Ademato
+            <Link href="/" className="text-xl tracking-[0.3em] font-serif font-light">
+              ADEMATO
             </Link>
 
             {/* Social */}

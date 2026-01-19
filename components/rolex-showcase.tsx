@@ -6,6 +6,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import Autoplay from "embla-carousel-autoplay";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { useScrollAnimation } from "@/hooks/use-scroll-animation";
 
 const categories = [
   "All Watches",
@@ -89,6 +90,8 @@ export function RolexShowcase() {
     },
   }, [Autoplay({ delay: 3000, stopOnInteraction: false }) as any]);
 
+  const { ref: sectionRef, isVisible } = useScrollAnimation({ threshold: 0.1 });
+
   const filteredWatches = watches.filter(
     (watch) =>
       activeCategory === "All Watches" || watch.category === activeCategory,
@@ -123,93 +126,82 @@ export function RolexShowcase() {
   }, [activeCategory, emblaApi]);
 
   return (
-    <section className="py-16 bg-background border-t border-border">
+    <section 
+      ref={sectionRef}
+      className={`py-16 bg-background border-t border-border transition-all duration-1000 ${
+        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+      }`}
+    >
       <div className="px-4">
         {/* Header & Filters */}
-        <div className="text-center mb-12 max-w-2xl mx-auto">
-          <h2 className="text-3xl font-light tracking-tight mb-2">
-            Watch Collection
-          </h2>
-          <p className="text-muted-foreground text-sm tracking-wide">
-            Explore our curated selection
-          </p>
-        </div>
-
-        {/* Categories Section - Commented Out */}
-        {/* <div className="flex flex-wrap gap-2">
-            {categories.map((category) => (
-              <button
-                key={category}
-                onClick={() => setActiveCategory(category)}
-                className={`px-4 py-2 text-sm tracking-wider transition-all border ${
-                  activeCategory === category
-                    ? "bg-foreground text-background border-foreground"
-                    : "bg-transparent text-muted-foreground border-transparent hover:border-border hover:text-foreground"
-                }`}
-              >
-                {category}
-              </button>
-            ))}
-          </div> */}
-      </div>
-
-      {/* Carousel */}
-      <div className="relative group">
-        <div className="overflow-hidden" ref={emblaRef}>
-          <div className="flex -ml-4">
-            {filteredWatches.map((watch) => (
-              <div
-                key={watch.id}
-                className="flex-[0_0_100%] sm:flex-[0_0_50%] lg:flex-[0_0_25%] xl:flex-[0_0_20%] 2xl:flex-[0_0_16.666%] min-w-0 pl-4"
-              >
-                <Link
-                  href={`/watch/${watch.id}`}
-                  className="block group/card"
-                >
-                  {/* Image Container */}
-                  <div className="aspect-[3/4] bg-[#f5f5f5] mb-4 overflow-hidden relative rounded-xl">
-                    <img
-                      src={watch.image || "/placeholder.svg"}
-                      alt={watch.model}
-                      className="h-full w-full object-cover object-center transition-transform duration-700 group-hover/card:scale-105"
-                    />
-                  </div>
-
-                  {/* Info */}
-                  <div className="space-y-1">
-                    <h3 className="text-xs font-semibold tracking-widest text-muted-foreground uppercase">
-                      {watch.brand}
-                    </h3>
-                    <h4 className="text-base font-normal text-foreground tracking-wide">
-                      {watch.model}
-                    </h4>
-                    <p className="text-sm font-medium text-foreground/80 tracking-wide">
-                      {watch.price}
-                    </p>
-                  </div>
-                </Link>
-              </div>
-            ))}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div>
+            <h2 className="text-2xl lg:text-3xl font-serif font-light tracking-tight mb-3">Rolex Collection</h2>
+            <p className="text-[var(--luxury-bronze)] text-xs tracking-[0.2em] uppercase">Masterpieces of Engineering</p>
+          </div>
+          
+          <div className="flex items-center gap-3">
+            <button
+                onClick={scrollPrev}
+                disabled={!canScrollPrev}
+                className={`flex h-10 w-10 items-center justify-center text-foreground hover:opacity-70 transition-all duration-300 hover:scale-110 ${!canScrollPrev ? "opacity-30 cursor-not-allowed" : ""}`}
+                aria-label="Previous slide"
+            >
+                <ChevronLeft className="h-8 w-8" />
+            </button>
+            <button
+                onClick={scrollNext}
+                disabled={!canScrollNext}
+                className={`flex h-10 w-10 items-center justify-center text-foreground hover:opacity-70 transition-all duration-300 hover:scale-110 ${!canScrollNext ? "opacity-30 cursor-not-allowed" : ""}`}
+                aria-label="Next slide"
+            >
+                <ChevronRight className="h-8 w-8" />
+            </button>
           </div>
         </div>
 
-        {/* Navigation Buttons (Desktop) */}
-        <button
-          onClick={scrollPrev}
-          disabled={!canScrollPrev}
-          className={`absolute left-4 top-1/2 -translate-y-1/2 hidden xl:flex h-10 w-10 items-center justify-center text-foreground hover:opacity-70 transition-opacity ${!canScrollPrev ? "opacity-30 cursor-not-allowed" : ""}`}
-          aria-label="Previous slide"
-        >
-          <ChevronLeft className="h-8 w-8" />
-        </button>
-        <button
-          onClick={scrollNext}
-          disabled={!canScrollNext}
-          className={`absolute right-4 top-1/2 -translate-y-1/2 hidden xl:flex h-10 w-10 items-center justify-center text-foreground hover:opacity-70 transition-opacity ${!canScrollNext ? "opacity-30 cursor-not-allowed" : ""}`}
-          aria-label="Next slide"
-        >
-          <ChevronRight className="h-8 w-8" />
-        </button>
+        {/* Carousel */}
+        <div className="relative group">
+          <div className="overflow-hidden" ref={emblaRef}>
+            <div className="flex -ml-4">
+              {filteredWatches.map((watch, index) => (
+                <div
+                  key={watch.id}
+                  className="flex-[0_0_100%] sm:flex-[0_0_50%] lg:flex-[0_0_25%] xl:flex-[0_0_20%] 2xl:flex-[0_0_16.666%] min-w-0 pl-4"
+                >
+                  <Link
+                    href={`/watch/${watch.id}`}
+                    className="block group/card"
+                  >
+                    {/* Image Container with Shimmer */}
+                    <div className="aspect-[3/4] bg-[#f5f5f5] mb-4 overflow-hidden relative shadow-luxury hover:shadow-luxury-hover transition-shadow duration-500 rounded-sm">
+                      <img
+                        src={watch.image || "/placeholder.svg"}
+                        alt={watch.model}
+                        className="h-full w-full object-cover object-center transition-transform duration-700 group-hover/card:scale-105"
+                      />
+                      {/* Shimmer overlay on hover */}
+                      <div className="absolute inset-0 opacity-0 group-hover/card:opacity-100 transition-opacity duration-500 shimmer-overlay" />
+                    </div>
+
+                    {/* Info */}
+                    <div className="space-y-1">
+                      <h3 className="text-xs font-semibold tracking-widest text-muted-foreground uppercase">
+                        {watch.brand}
+                      </h3>
+                      <h4 className="text-base font-normal text-foreground tracking-wide group-hover/card:translate-x-1 transition-transform duration-300">
+                        {watch.model}
+                      </h4>
+                      <p className="text-sm font-medium text-[var(--luxury-gold)] tracking-wide">
+                        {watch.price}
+                      </p>
+                    </div>
+                  </Link>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -126,11 +126,10 @@ export function NewArrivals() {
             <button
               key={filter}
               onClick={() => setActiveFilter(filter)}
-              className={`px-4 py-2 text-sm tracking-widest transition-all ${
-                activeFilter === filter
+              className={`px-4 py-2 text-sm tracking-widest transition-all ${activeFilter === filter
                   ? "bg-primary text-primary-foreground"
                   : "bg-background text-foreground hover:bg-primary/10"
-              }`}
+                }`}
             >
               {filter}
             </button>
@@ -142,7 +141,7 @@ export function NewArrivals() {
           {filteredWatches.map((watch) => (
             <div key={watch.id} className="group bg-card border border-border">
               {/* Image */}
-              <div className="relative aspect-square overflow-hidden bg-secondary">
+              <div className="relative aspect-square overflow-hidden bg-secondary rounded-xl">
                 <img
                   src={watch.image || "/placeholder.svg"}
                   alt={`${watch.brand} ${watch.model}`}
@@ -168,9 +167,8 @@ export function NewArrivals() {
                 <div className="absolute top-3 right-3 flex flex-col gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
                   <button
                     onClick={() => toggleWishlist(watch.id)}
-                    className={`p-2 bg-background/90 hover:bg-background transition-colors ${
-                      wishlist.includes(watch.id) ? "text-accent" : "text-foreground"
-                    }`}
+                    className={`p-2 bg-background/90 hover:bg-background transition-colors ${wishlist.includes(watch.id) ? "text-accent" : "text-foreground"
+                      }`}
                     aria-label="Add to wishlist"
                   >
                     <Heart className={`h-4 w-4 ${wishlist.includes(watch.id) ? "fill-current" : ""}`} />

@@ -97,7 +97,7 @@ export function Footer() {
         <div className="mx-auto max-w-7xl px-4 py-6">
           <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
             {/* Logo */}
-            <Link href="/" className="text-lg tracking-[0.2em] font-medium">
+            <Link href="/" className="text-3xl tracking-wide font-bold font-[family-name:var(--font-caveat)]">
               Ademato
             </Link>
 

@@ -3,6 +3,7 @@
 import { useState, useCallback, useEffect } from "react"
 import useEmblaCarousel from "embla-carousel-react"
 import { Star, ChevronLeft, ChevronRight } from "lucide-react"
+import Autoplay from "embla-carousel-autoplay"
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 
@@ -75,7 +76,7 @@ export function TestimonialSlider() {
             '(min-width: 1280px)': { slidesToScroll: 4 },
             '(min-width: 1536px)': { slidesToScroll: 5 }
         }
-    })
+    }, [Autoplay({ delay: 4000, stopOnInteraction: false }) as any])
 
     const scrollPrev = useCallback(() => emblaApi && emblaApi.scrollPrev(), [emblaApi])
     const scrollNext = useCallback(() => emblaApi && emblaApi.scrollNext(), [emblaApi])
@@ -95,7 +96,7 @@ export function TestimonialSlider() {
                         <div className="flex -ml-6">
                             {testimonials.map((testimonial) => (
                                 <div key={testimonial.id} className="flex-[0_0_100%] md:flex-[0_0_50%] lg:flex-[0_0_33.33%] xl:flex-[0_0_25%] 2xl:flex-[0_0_20%] min-w-0 pl-6">
-                                    <div className="h-full p-8 bg-secondary/30 border border-border/50 rounded-sm font-roboto">
+                                    <div className="h-full p-8 bg-secondary/30 border border-border/50 rounded-xl font-roboto">
                                         <div className="flex gap-1 mb-6">
                                             {[...Array(testimonial.rating)].map((_, i) => (
                                                 <Star key={i} className="h-4 w-4 fill-primary text-primary" />

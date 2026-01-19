@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Cormorant_Garamond, Outfit, Roboto } from "next/font/google"
+import { Cormorant_Garamond, Outfit, Roboto, Caveat } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { Header } from "@/components/header"
 import { Footer } from "@/components/footer"
@@ -24,6 +24,11 @@ const roboto = Roboto({
   variable: "--font-roboto",
 })
 
+const caveat = Caveat({
+  subsets: ["latin"],
+  variable: "--font-caveat",
+})
+
 export const metadata: Metadata = {
   title: "Ademato | Curated Luxury Timepieces",
   description:
@@ -38,7 +43,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${cormorant.variable} ${outfit.variable} ${roboto.variable} font-sans antialiased bg-background text-foreground`}>
+      <body className={`${cormorant.variable} ${outfit.variable} ${roboto.variable} ${caveat.variable} font-sans antialiased bg-background text-foreground`}>
         <CartProvider>
           <Header />
           {children}

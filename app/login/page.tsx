@@ -1,34 +1,51 @@
+"use client"
+
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
+import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 export default function LoginPage() {
+  const { ref, isVisible } = useScrollAnimation({ threshold: 0.1 })
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-4 py-12">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-serif font-medium tracking-tight">Welcome Back</h1>
-          <p className="text-muted-foreground mt-2">Sign in to your account</p>
+    <div className="min-h-screen flex items-center justify-center bg-background px-4 py-12 relative overflow-hidden">
+      {/* Background visual element */}
+      <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_50%_0%,var(--luxury-gold)_0%,transparent_25%)] opacity-[0.03] pointer-events-none" />
+      <div className="absolute bottom-0 right-0 w-full h-full bg-[radial-gradient(circle_at_100%_100%,var(--luxury-bronze)_0%,transparent_20%)] opacity-[0.02] pointer-events-none" />
+
+      <div 
+        ref={ref}
+        className={`w-full max-w-md transition-all duration-1000 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+        }`}
+      >
+        <div className="text-center mb-10">
+          <h1 className="text-4xl lg:text-5xl font-serif font-light tracking-tight mb-2">Welcome Back</h1>
+          <p className="text-[var(--luxury-bronze)] uppercase tracking-[0.2em] text-[10px]">Exceptional Timepieces Await</p>
         </div>
 
-        <div className="bg-card border border-border rounded-lg p-8">
-          <form className="space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+        <div className="bg-card/50 backdrop-blur-sm border border-border/50 shadow-luxury p-10 lg:p-12 relative">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-[1px] bg-gradient-to-r from-transparent via-[var(--luxury-gold)] to-transparent" />
+          
+          <form className="space-y-8">
+            <div className="space-y-3">
+              <Label htmlFor="email" className="text-[10px] uppercase tracking-[0.2em] font-medium text-muted-foreground">Email Address</Label>
               <Input
                 id="email"
                 type="email"
                 placeholder="name@example.com"
                 required
+                className="h-12 bg-background/50 border-border/50 focus:border-[var(--luxury-gold)] focus:ring-[var(--luxury-gold)]/20 transition-all duration-300"
               />
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <Label htmlFor="password">Password</Label>
-                <Link href="/forgot-password" className="text-sm text-accent hover:underline">
+                <Label htmlFor="password" className="text-[10px] uppercase tracking-[0.2em] font-medium text-muted-foreground">Password</Label>
+                <Link href="/forgot-password" className="text-[10px] tracking-widest text-[var(--luxury-bronze)] hover:text-[var(--luxury-gold)] transition-colors uppercase">
                   Forgot?
                 </Link>
               </div>
@@ -36,21 +53,25 @@ export default function LoginPage() {
                 id="password"
                 type="password"
                 required
+                className="h-12 bg-background/50 border-border/50 focus:border-[var(--luxury-gold)] focus:ring-[var(--luxury-gold)]/20 transition-all duration-300"
               />
             </div>
 
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-3">
               <input
                 type="checkbox"
                 id="remember"
-                className="h-4 w-4 rounded border-border"
+                className="h-4 w-4 rounded border-border text-[var(--luxury-gold)] focus:ring-[var(--luxury-gold)]"
               />
-              <label htmlFor="remember" className="text-sm text-muted-foreground">
-                Remember me
+              <label htmlFor="remember" className="text-[10px] uppercase tracking-widest text-muted-foreground cursor-pointer">
+                Remember my signature
               </label>
             </div>
 
-            <Button type="submit" className="w-full h-11">
+            <Button 
+                type="submit" 
+                className="w-full h-14 bg-foreground text-background hover:bg-foreground/90 tracking-[0.3em] uppercase text-xs font-medium transition-all duration-500 hover:shadow-luxury-hover hover:scale-[1.02]"
+            >
               Sign In
             </Button>
           </form>
@@ -77,10 +98,10 @@ export default function LoginPage() {
             </div>
           </div>
 
-          <p className="text-center text-sm text-muted-foreground mt-6">
+          <p className="text-center text-[10px] tracking-[0.2em] uppercase text-muted-foreground mt-10">
             Don't have an account?{" "}
-            <Link href="/register" className="text-accent hover:underline font-medium">
-              Sign up
+            <Link href="/register" className="text-[var(--luxury-gold)] hover:underline font-bold">
+              Join the Circle
             </Link>
           </p>
         </div>

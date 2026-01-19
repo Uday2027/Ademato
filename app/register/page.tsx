@@ -1,90 +1,114 @@
+"use client"
+
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
+import { useScrollAnimation } from "@/hooks/use-scroll-animation"
 
 export default function RegisterPage() {
+  const { ref, isVisible } = useScrollAnimation({ threshold: 0.1 })
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-background px-4 py-12">
-      <div className="w-full max-w-md">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-serif font-medium tracking-tight">Create Account</h1>
-          <p className="text-muted-foreground mt-2">Join our exclusive community</p>
+    <div className="min-h-screen flex items-center justify-center bg-background px-4 py-12 relative overflow-hidden">
+      {/* Background visual element */}
+      <div className="absolute top-0 right-0 w-full h-full bg-[radial-gradient(circle_at_50%_0%,var(--luxury-gold)_0%,transparent_25%)] opacity-[0.03] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-full h-full bg-[radial-gradient(circle_at_0%_100%,var(--luxury-bronze)_0%,transparent_20%)] opacity-[0.02] pointer-events-none" />
+
+      <div 
+        ref={ref}
+        className={`w-full max-w-md transition-all duration-1000 ${
+          isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
+        }`}
+      >
+        <div className="text-center mb-10">
+          <h1 className="text-4xl lg:text-5xl font-serif font-light tracking-tight mb-2">Join the Circle</h1>
+          <p className="text-[var(--luxury-bronze)] uppercase tracking-[0.2em] text-[10px]">Begin your horological journey</p>
         </div>
 
-        <div className="bg-card border border-border rounded-lg p-8">
-          <form className="space-y-5">
+        <div className="bg-card/50 backdrop-blur-sm border border-border/50 shadow-luxury p-10 lg:p-12 relative">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-32 h-[1px] bg-gradient-to-r from-transparent via-[var(--luxury-gold)] to-transparent" />
+          
+          <form className="space-y-6">
             <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label htmlFor="firstName">First Name</Label>
+              <div className="space-y-3">
+                <Label htmlFor="firstName" className="text-[10px] uppercase tracking-[0.2em] font-medium text-muted-foreground">First Name</Label>
                 <Input
                   id="firstName"
                   type="text"
                   required
+                  className="h-12 bg-background/50 border-border/50 focus:border-[var(--luxury-gold)] focus:ring-[var(--luxury-gold)]/20 transition-all duration-300"
                 />
               </div>
-              <div className="space-y-2">
-                <Label htmlFor="lastName">Last Name</Label>
+              <div className="space-y-3">
+                <Label htmlFor="lastName" className="text-[10px] uppercase tracking-[0.2em] font-medium text-muted-foreground">Last Name</Label>
                 <Input
                   id="lastName"
                   type="text"
                   required
+                  className="h-12 bg-background/50 border-border/50 focus:border-[var(--luxury-gold)] focus:ring-[var(--luxury-gold)]/20 transition-all duration-300"
                 />
               </div>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
+            <div className="space-y-3">
+              <Label htmlFor="email" className="text-[10px] uppercase tracking-[0.2em] font-medium text-muted-foreground">Email Address</Label>
               <Input
                 id="email"
                 type="email"
                 placeholder="name@example.com"
                 required
+                className="h-12 bg-background/50 border-border/50 focus:border-[var(--luxury-gold)] focus:ring-[var(--luxury-gold)]/20 transition-all duration-300"
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="password">Password</Label>
+            <div className="space-y-3">
+              <Label htmlFor="password" id="password-label" className="text-[10px] uppercase tracking-[0.2em] font-medium text-muted-foreground">Password</Label>
               <Input
                 id="password"
                 type="password"
                 required
+                className="h-12 bg-background/50 border-border/50 focus:border-[var(--luxury-gold)] focus:ring-[var(--luxury-gold)]/20 transition-all duration-300"
               />
-              <p className="text-xs text-muted-foreground">
-                Must be at least 8 characters
+              <p className="text-[9px] uppercase tracking-widest text-muted-foreground">
+                Minimum of 8 characters required
               </p>
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirm Password</Label>
+            <div className="space-y-3">
+              <Label htmlFor="confirmPassword" className="text-[10px] uppercase tracking-[0.2em] font-medium text-muted-foreground">Confirm Password</Label>
               <Input
                 id="confirmPassword"
                 type="password"
                 required
+                className="h-12 bg-background/50 border-border/50 focus:border-[var(--luxury-gold)] focus:ring-[var(--luxury-gold)]/20 transition-all duration-300"
               />
             </div>
 
-            <div className="flex items-start space-x-2">
+            <div className="flex items-start space-x-3">
               <input
                 type="checkbox"
                 id="terms"
-                className="h-4 w-4 rounded border-border mt-0.5"
+                className="h-4 w-4 rounded border-border text-[var(--luxury-gold)] focus:ring-[var(--luxury-gold)] mt-1"
                 required
               />
-              <label htmlFor="terms" className="text-sm text-muted-foreground leading-relaxed">
+              <label htmlFor="terms" className="text-[10px] uppercase tracking-[0.15em] text-muted-foreground leading-relaxed">
                 I agree to the{" "}
-                <Link href="/terms" className="text-accent hover:underline">
+                <Link href="/terms" className="text-[var(--luxury-gold)] hover:underline">
                   Terms of Service
                 </Link>{" "}
                 and{" "}
-                <Link href="/privacy" className="text-accent hover:underline">
+                <Link href="/privacy" className="text-[var(--luxury-gold)] hover:underline">
                   Privacy Policy
                 </Link>
               </label>
             </div>
 
-            <Button type="submit" className="w-full h-11">
+            <Button 
+                type="submit" 
+                className="w-full h-14 bg-foreground text-background hover:bg-foreground/90 tracking-[0.3em] uppercase text-xs font-medium transition-all duration-500 hover:shadow-luxury-hover hover:scale-[1.02]"
+            >
               Create Account
             </Button>
           </form>
@@ -111,10 +135,10 @@ export default function RegisterPage() {
             </div>
           </div>
 
-          <p className="text-center text-sm text-muted-foreground mt-6">
-            Already have an account?{" "}
-            <Link href="/login" className="text-accent hover:underline font-medium">
-              Sign in
+          <p className="text-center text-[10px] tracking-[0.2em] uppercase text-muted-foreground mt-10">
+            Already a member?{" "}
+            <Link href="/login" className="text-[var(--luxury-gold)] hover:underline font-bold">
+              Sign In
             </Link>
           </p>
         </div>

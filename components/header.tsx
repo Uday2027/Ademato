@@ -56,7 +56,7 @@ export function Header() {
                     <Link
                       key={item.name}
                       href={item.href}
-                      className="text-xl font-light tracking-wide hover:text-accent transition-colors"
+                      className="text-xl font-light tracking-[0.1em] hover:text-[var(--luxury-gold)] transition-colors"
                     >
                       {item.name}
                     </Link>
@@ -78,20 +78,21 @@ export function Header() {
                 <Link
                   key={item.name}
                   href={item.href}
-                  className="text-sm tracking-widest font-medium text-foreground/80 hover:text-foreground transition-colors"
+                  className="text-sm tracking-[0.2em] uppercase font-medium text-foreground/70 hover:text-[var(--luxury-gold)] transition-all duration-300 relative group/link"
                 >
                   {item.name}
+                  <span className="absolute -bottom-1 left-0 w-0 h-[1px] bg-[var(--luxury-gold)] transition-all duration-300 group-hover/link:w-full" />
                 </Link>
               ))}
             </nav>
 
             {/* Right Icons */}
-            <div className="flex items-center gap-1 lg:gap-2">
+            <div className="flex items-center gap-1 lg:gap-3">
               <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => setIsSearchOpen(!isSearchOpen)}
-                className="text-foreground/80 hover:text-foreground"
+                className="text-foreground/70 hover:text-[var(--luxury-gold)] hover:bg-transparent transition-all duration-300"
               >
                 {isSearchOpen ? (
                   <X className="h-5 w-5" />
@@ -104,7 +105,7 @@ export function Header() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="hidden sm:inline-flex text-foreground/80 hover:text-foreground"
+                  className="hidden sm:inline-flex text-foreground/70 hover:text-[var(--luxury-gold)] hover:bg-transparent transition-all duration-300"
                 >
                   <User className="h-5 w-5" />
                   <span className="sr-only">Account</span>
@@ -114,7 +115,7 @@ export function Header() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="text-foreground/80 hover:text-foreground"
+                  className="text-foreground/70 hover:text-[var(--luxury-gold)] hover:bg-transparent transition-all duration-300"
                 >
                   <Heart className="h-5 w-5" />
                   <span className="sr-only">Wishlist</span>
@@ -124,11 +125,11 @@ export function Header() {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="relative text-foreground/80 hover:text-foreground"
+                  className="relative text-foreground/70 hover:text-[var(--luxury-gold)] hover:bg-transparent transition-all duration-300"
                 >
                   <ShoppingBag className="h-5 w-5" />
                   {itemCount > 0 && (
-                    <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-accent text-[10px] font-medium text-accent-foreground flex items-center justify-center">
+                    <span className="absolute -top-1 -right-1 h-3.5 w-3.5 rounded-full bg-[var(--luxury-gold)] text-[8px] font-bold text-white flex items-center justify-center animate-scaleIn">
                       {itemCount}
                     </span>
                   )}

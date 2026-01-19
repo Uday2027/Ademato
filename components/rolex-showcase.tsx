@@ -134,29 +134,53 @@ export function RolexShowcase() {
     >
       <div className="px-4">
         {/* Header & Filters */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
-          <div>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-12">
+          <div className="flex-1">
             <h2 className="text-2xl lg:text-3xl font-serif font-light tracking-tight mb-3">Rolex Collection</h2>
-            <p className="text-[var(--luxury-bronze)] text-xs tracking-[0.2em] uppercase">Masterpieces of Engineering</p>
+            <div className="flex items-center justify-between">
+              <p className="text-[var(--luxury-bronze)] text-xs tracking-[0.2em] uppercase">Masterpieces of Engineering</p>
+              
+              {/* Navigation Buttons (Header Position) */}
+              <div className="hidden xl:flex items-center gap-4">
+                <button
+                  onClick={scrollPrev}
+                  disabled={!canScrollPrev}
+                  className={`h-10 w-10 flex items-center justify-center rounded-full border border-border text-foreground transition-all duration-300 hover:border-[var(--luxury-gold)] hover:text-[var(--luxury-gold)] hover:shadow-luxury ${!canScrollPrev ? "opacity-20 cursor-not-allowed" : "hover:scale-110"}`}
+                  aria-label="Previous slide"
+                >
+                  <ChevronLeft className="h-5 w-5" />
+                </button>
+                <button
+                  onClick={scrollNext}
+                  disabled={!canScrollNext}
+                  className={`h-10 w-10 flex items-center justify-center rounded-full border border-border text-foreground transition-all duration-300 hover:border-[var(--luxury-gold)] hover:text-[var(--luxury-gold)] hover:shadow-luxury ${!canScrollNext ? "opacity-20 cursor-not-allowed" : "hover:scale-110"}`}
+                  aria-label="Next slide"
+                >
+                  <ChevronRight className="h-5 w-5" />
+                </button>
+              </div>
+            </div>
           </div>
-          
-          <div className="flex items-center gap-3">
-            <button
-                onClick={scrollPrev}
-                disabled={!canScrollPrev}
-                className={`flex h-10 w-10 items-center justify-center text-foreground hover:opacity-70 transition-all duration-300 hover:scale-110 ${!canScrollPrev ? "opacity-30 cursor-not-allowed" : ""}`}
-                aria-label="Previous slide"
-            >
-                <ChevronLeft className="h-8 w-8" />
-            </button>
-            <button
-                onClick={scrollNext}
-                disabled={!canScrollNext}
-                className={`flex h-10 w-10 items-center justify-center text-foreground hover:opacity-70 transition-all duration-300 hover:scale-110 ${!canScrollNext ? "opacity-30 cursor-not-allowed" : ""}`}
-                aria-label="Next slide"
-            >
-                <ChevronRight className="h-8 w-8" />
-            </button>
+
+          <div className="flex flex-wrap gap-2 md:self-end">
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setActiveCategory(category)}
+                className={`px-4 py-2 text-sm tracking-wider transition-all border duration-300 ${
+                  activeCategory === category
+                    ? "bg-foreground text-background border-foreground shadow-luxury"
+                    : "bg-transparent text-muted-foreground border-transparent hover:border-border hover:text-foreground"
+                }`}
+                style={
+                  activeCategory === category 
+                    ? { borderColor: 'var(--luxury-gold)', boxShadow: '0 0 20px rgba(0,0,0,0.1)' }
+                    : {}
+                }
+              >
+                {category}
+              </button>
+            ))}
           </div>
         </div>
 
@@ -201,6 +225,7 @@ export function RolexShowcase() {
               ))}
             </div>
           </div>
+
         </div>
       </div>
     </section>
